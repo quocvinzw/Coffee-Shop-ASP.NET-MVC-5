@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "ManageProduct";
+    Layout = "~/Views/Shared/_LayoutMarketing.cshtml";
+}
+
+@if (TempData["Alert"] != null)
+{
+    if (TempData["Alert"].ToString() == "Success")
+    {
+        <div class="alert alert-success alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Success!</strong> Success Change Status Product.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Error!</strong> There are some error please check back.
+        </div>
+    }
+}
+
+@if (TempData["Edit"] != null)
+{
+    <div class="alert alert-success alert-dismissible" id="rmAlert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+        <strong>Success!</strong> Success Edit Product.
+    </div>
+}
+<h1 class="h3 mb-2 text-gray-800">Manage Product</h1>
+<p class="mb-4">
+    Manage Product <a target="_blank" href="https://datatables.net">official Coffo Marketing</a>.
+</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-8">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">All List Product</h6>
+    </div>
+    <div class="card-body">
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 col-md-8">
+                    <div class="dataTables_length" id="dataTable_length"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 50px;">ID</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 250px;">Product Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:150px;">Price</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 200px;">Image</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 250px;">Description</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:150px;">Category</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:100px;">Action</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:100px;">Status</th>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.lsProduct != null)
+                                {
+                                    List<CoffeShop.Models.ProductView> ls = ViewBag.lsProduct;
+                                    int i = 1;
+                                    foreach (var item in ls)
+                                    {
+                                        <tr class="odd">
+                                            <td>@i</td>
+                                            <td>@item.name</td>
+                                            <td>@item.price VNĐ</td>
+                                            <td>
+                                                <img src="@item.imagename" alt="Alternate Text" style="max-width:100%;height:auto" />
+                                            </td>
+                                            <td>@item.description</td>
+                                            <td>@item.catename</td>
+                                            <td><a href="@Url.Action("EditProduct","Marketing",new {idproduct=item.id})" class="text-primary">Edit</a></td>
+                                            <td>
+                                                @if (item.status == true)
+                                                {
+                                                    <a href="@Url.Action("changeStatusProduct","Marketing",new {idproduct=item.id})" class="text-danger">Disable</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("changeStatusProduct","Marketing",new {idproduct=item.id})" class="text-success">Active</a>
+                                                }
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

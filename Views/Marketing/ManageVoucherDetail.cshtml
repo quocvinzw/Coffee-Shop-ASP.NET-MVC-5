@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ManageVoucherDetail";
+    Layout = "~/Views/Shared/_LayoutMarketing.cshtml";
+}
+
+@if (TempData["Alert"] != null)
+{
+    if (TempData["Alert"].ToString() == "Success")
+    {
+        <div class="alert alert-success alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Success!</strong> Success Change Status Voucher Details.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Error!</strong> There are some voucher active on this product.
+        </div>
+    }
+}
+
+<h1 class="h3 mb-2 text-gray-800">Manage Voucher Details</h1>
+<p class="mb-2">
+    Manage VoucherDetails <a target="_blank" href="https://datatables.net">official Coffo Marketing</a>.
+</p>
+<div class="mb-4">
+    <a href="@Url.Action("AddVoucher","Marketing")" class="btn btn-success">Create Voucher Details</a>
+</div>
+<!-- DataTales Example -->
+<div class="card shadow mb-8">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">All List Voucher Details</h6>
+    </div>
+    <div class="card-body">
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 col-md-8">
+                    <div class="dataTables_length" id="dataTable_length"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 50px;">ID</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 250px;">Product Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:150px;">Price</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 150px;">Voucher Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:150px;">Discount</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 150px;">Discount Price</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:100px;">Action</th>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.lsVoucherDetail != null)
+                                {
+                                    List<CoffeShop.Models.VoucherDetailView> ls = ViewBag.lsVoucherDetail;
+                                    int i = 1;
+                                    foreach (var item in ls)
+                                    {
+                                        <tr class="odd">
+                                            <td>@i</td>
+                                            <td>@item.productname</td>
+                                            <td>@item.price</td>
+                                            <td>@item.vouchername</td>
+                                            <td>@item.discount%</td>
+                                            <td>@(item.price-(item.price*item.discount/100))</td>
+                                            <td>
+                                                @if (item.status == false)
+                                                {
+                                                    <a href="@Url.Action("changeStatusVoucherDetail","Marketing",new {idvd=item.id})" class="text-success">Active</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("changeStatusVoucherDetail","Marketing",new {idvd=item.id})" class="text-danger">Disable</a>
+                                                }
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

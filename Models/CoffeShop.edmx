@@ -1,0 +1,668 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CoffeShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idproduct" Type="int" />
+          <Property Name="idclient" Type="int" />
+          <Property Name="datecart" Type="date" />
+          <Property Name="amount" Type="int" />
+          <Property Name="price" Type="int" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="gender" Type="bit" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="birth" Type="date" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="ClientOrder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idproduct" Type="int" />
+          <Property Name="idclient" Type="int" />
+          <Property Name="datecart" Type="date" />
+          <Property Name="amount" Type="int" />
+          <Property Name="price" Type="int" />
+          <Property Name="status" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Emp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="gender" Type="bit" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="birth" Type="date" />
+          <Property Name="dwork" Type="date" />
+          <Property Name="pos" Type="varchar" MaxLength="30" />
+          <Property Name="branch" Type="int" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="price" Type="bigint" />
+          <Property Name="image" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="2000" />
+          <Property Name="category" Type="int" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="VoucherDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idproduct" Type="int" />
+          <Property Name="idvoucher" Type="int" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Vouchers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="discount" Type="int" />
+          <Property Name="datecreate" Type="date" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <Association Name="fk_cart_client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idclient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cart_product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_client_order">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="ClientOrder" Type="Self.ClientOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientOrder">
+              <PropertyRef Name="idclient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_emp_brank">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Emp">
+              <PropertyRef Name="branch" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_pro_cate">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_product_order">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="ClientOrder" Type="Self.ClientOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientOrder">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voucherd_product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="VoucherDetail" Type="Self.VoucherDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="VoucherDetail">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voucherd_voucher">
+          <End Role="Vouchers" Type="Self.Vouchers" Multiplicity="0..1" />
+          <End Role="VoucherDetail" Type="Self.VoucherDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vouchers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="VoucherDetail">
+              <PropertyRef Name="idvoucher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CoffeShopModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientOrder" EntityType="Self.ClientOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp" EntityType="Self.Emp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VoucherDetail" EntityType="Self.VoucherDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vouchers" EntityType="Self.Vouchers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_cart_client" Association="Self.fk_cart_client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cart_product" Association="Self.fk_cart_product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="fk_client_order" Association="Self.fk_client_order">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="ClientOrder" EntitySet="ClientOrder" />
+          </AssociationSet>
+          <AssociationSet Name="fk_emp_brank" Association="Self.fk_emp_brank">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="Emp" EntitySet="Emp" />
+          </AssociationSet>
+          <AssociationSet Name="fk_pro_cate" Association="Self.fk_pro_cate">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_product_order" Association="Self.fk_product_order">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ClientOrder" EntitySet="ClientOrder" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voucherd_product" Association="Self.fk_voucherd_product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="VoucherDetail" EntitySet="VoucherDetail" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voucherd_voucher" Association="Self.fk_voucherd_voucher">
+            <End Role="Vouchers" EntitySet="Vouchers" />
+            <End Role="VoucherDetail" EntitySet="VoucherDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CoffeShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Emps" Relationship="CoffeShopModel.fk_emp_brank" FromRole="Branch" ToRole="Emp" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="birth" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Carts" Relationship="CoffeShopModel.fk_cart_client" FromRole="Client" ToRole="Cart" />
+          <NavigationProperty Name="ClientOrders" Relationship="CoffeShopModel.fk_client_order" FromRole="Client" ToRole="ClientOrder" />
+        </EntityType>
+        <EntityContainer Name="CoffeShopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Branches" EntityType="Self.Branch" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Admins" EntityType="CoffeShopModel.Admin" />
+          <EntitySet Name="Emps" EntityType="CoffeShopModel.Emp" />
+          <AssociationSet Name="fk_emp_brank" Association="CoffeShopModel.fk_emp_brank">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="Emp" EntitySet="Emps" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="CoffeShopModel.Category" />
+          <EntitySet Name="Products" EntityType="CoffeShopModel.Product" />
+          <AssociationSet Name="fk_pro_cate" Association="CoffeShopModel.fk_pro_cate">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="VoucherDetails" EntityType="CoffeShopModel.VoucherDetail" />
+          <AssociationSet Name="fk_voucherd_product" Association="CoffeShopModel.fk_voucherd_product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="VoucherDetail" EntitySet="VoucherDetails" />
+          </AssociationSet>
+          <EntitySet Name="Vouchers" EntityType="CoffeShopModel.Voucher" />
+          <AssociationSet Name="fk_voucherd_voucher" Association="CoffeShopModel.fk_voucherd_voucher">
+            <End Role="Voucher" EntitySet="Vouchers" />
+            <End Role="VoucherDetail" EntitySet="VoucherDetails" />
+          </AssociationSet>
+          <EntitySet Name="Carts" EntityType="CoffeShopModel.Cart" />
+          <AssociationSet Name="fk_cart_client" Association="CoffeShopModel.fk_cart_client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cart_product" Association="CoffeShopModel.fk_cart_product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
+          <EntitySet Name="ClientOrders" EntityType="CoffeShopModel.ClientOrder" />
+          <AssociationSet Name="fk_client_order" Association="CoffeShopModel.fk_client_order">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="ClientOrder" EntitySet="ClientOrders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_product_order" Association="CoffeShopModel.fk_product_order">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ClientOrder" EntitySet="ClientOrders" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Emp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="birth" Type="DateTime" Precision="0" />
+          <Property Name="dwork" Type="DateTime" Precision="0" />
+          <Property Name="pos" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="branch" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Branch1" Relationship="CoffeShopModel.fk_emp_brank" FromRole="Emp" ToRole="Branch" />
+        </EntityType>
+        <Association Name="fk_emp_brank">
+          <End Type="CoffeShopModel.Branch" Role="Branch" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.Emp" Role="Emp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Emp">
+              <PropertyRef Name="branch" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Products" Relationship="CoffeShopModel.fk_pro_cate" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Int64" />
+          <Property Name="image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="category" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Category1" Relationship="CoffeShopModel.fk_pro_cate" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="VoucherDetails" Relationship="CoffeShopModel.fk_voucherd_product" FromRole="Product" ToRole="VoucherDetail" />
+          <NavigationProperty Name="Carts" Relationship="CoffeShopModel.fk_cart_product" FromRole="Product" ToRole="Cart" />
+          <NavigationProperty Name="ClientOrders" Relationship="CoffeShopModel.fk_product_order" FromRole="Product" ToRole="ClientOrder" />
+        </EntityType>
+        <Association Name="fk_pro_cate">
+          <End Type="CoffeShopModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VoucherDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idproduct" Type="Int32" />
+          <Property Name="idvoucher" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Product" Relationship="CoffeShopModel.fk_voucherd_product" FromRole="VoucherDetail" ToRole="Product" />
+          <NavigationProperty Name="Voucher" Relationship="CoffeShopModel.fk_voucherd_voucher" FromRole="VoucherDetail" ToRole="Voucher" />
+        </EntityType>
+        <Association Name="fk_voucherd_product">
+          <End Type="CoffeShopModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.VoucherDetail" Role="VoucherDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="VoucherDetail">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Voucher">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="discount" Type="Int32" />
+          <Property Name="datecreate" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="VoucherDetails" Relationship="CoffeShopModel.fk_voucherd_voucher" FromRole="Voucher" ToRole="VoucherDetail" />
+        </EntityType>
+        <Association Name="fk_voucherd_voucher">
+          <End Type="CoffeShopModel.Voucher" Role="Voucher" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.VoucherDetail" Role="VoucherDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voucher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="VoucherDetail">
+              <PropertyRef Name="idvoucher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idproduct" Type="Int32" />
+          <Property Name="idclient" Type="Int32" />
+          <Property Name="datecart" Type="DateTime" Precision="0" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Client" Relationship="CoffeShopModel.fk_cart_client" FromRole="Cart" ToRole="Client" />
+          <NavigationProperty Name="Product" Relationship="CoffeShopModel.fk_cart_product" FromRole="Cart" ToRole="Product" />
+        </EntityType>
+        <Association Name="fk_cart_client">
+          <End Type="CoffeShopModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idclient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cart_product">
+          <End Type="CoffeShopModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ClientOrder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idproduct" Type="Int32" />
+          <Property Name="idclient" Type="Int32" />
+          <Property Name="datecart" Type="DateTime" Precision="0" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Client" Relationship="CoffeShopModel.fk_client_order" FromRole="ClientOrder" ToRole="Client" />
+          <NavigationProperty Name="Product" Relationship="CoffeShopModel.fk_product_order" FromRole="ClientOrder" ToRole="Product" />
+        </EntityType>
+        <Association Name="fk_client_order">
+          <End Type="CoffeShopModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.ClientOrder" Role="ClientOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientOrder">
+              <PropertyRef Name="idclient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_product_order">
+          <End Type="CoffeShopModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="CoffeShopModel.ClientOrder" Role="ClientOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientOrder">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CoffeShopModelStoreContainer" CdmEntityContainer="CoffeShopEntities">
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="CoffeShopModel.Branch">
+              <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="CoffeShopModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="birth" ColumnName="birth" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="CoffeShopModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emps">
+            <EntityTypeMapping TypeName="CoffeShopModel.Emp">
+              <MappingFragment StoreEntitySet="Emp">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="branch" ColumnName="branch" />
+                <ScalarProperty Name="pos" ColumnName="pos" />
+                <ScalarProperty Name="dwork" ColumnName="dwork" />
+                <ScalarProperty Name="birth" ColumnName="birth" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="CoffeShopModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="CoffeShopModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoucherDetails">
+            <EntityTypeMapping TypeName="CoffeShopModel.VoucherDetail">
+              <MappingFragment StoreEntitySet="VoucherDetail">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="idvoucher" ColumnName="idvoucher" />
+                <ScalarProperty Name="idproduct" ColumnName="idproduct" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vouchers">
+            <EntityTypeMapping TypeName="CoffeShopModel.Voucher">
+              <MappingFragment StoreEntitySet="Vouchers">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="datecreate" ColumnName="datecreate" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Carts">
+            <EntityTypeMapping TypeName="CoffeShopModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="datecart" ColumnName="datecart" />
+                <ScalarProperty Name="idclient" ColumnName="idclient" />
+                <ScalarProperty Name="idproduct" ColumnName="idproduct" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientOrders">
+            <EntityTypeMapping TypeName="CoffeShopModel.ClientOrder">
+              <MappingFragment StoreEntitySet="ClientOrder">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="datecart" ColumnName="datecart" />
+                <ScalarProperty Name="idclient" ColumnName="idclient" />
+                <ScalarProperty Name="idproduct" ColumnName="idproduct" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

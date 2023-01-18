@@ -1,0 +1,130 @@
+﻿@model CoffeShop.Models.ClientView
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+@section header{
+    <header id="main-header" class="main-header-bg">
+        <div class="container inner-header">
+            <div class="title-wrap">
+                <h1 class="header-title">My account</h1>                <div class="breadcrumbs" typeof="BreadcrumbList" vocab="https://schema.org/">
+                    <!-- Breadcrumb NavXT 7.0.2 -->
+                    <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Coffo." href="https://coffo.peerduck.com" class="home"><span property="name">Home</span></a><meta property="position" content="1"></span>  /  <span property="itemListElement" typeof="ListItem"><span property="name" class="post post-page current-item">My account</span><meta property="url" content="https://coffo.peerduck.com/my-account/"><meta property="position" content="2"></span>
+                </div>
+            </div>
+        </div>
+        <div id="header-wave"></div>
+    </header>
+}
+
+<main id="site-content" class="flex-grow-1" role="main">
+
+    <div class="container-lg ">
+
+        <article class="post-9 page type-page status-publish hentry" id="post-9">
+
+            <div class="post-inner">
+
+
+                <header class="entry-header header-group">
+
+                    <div class="entry-header-inner">
+
+
+                    </div><!-- .entry-header-inner -->
+                </header><!-- .entry-header -->
+
+                <div class="entry-content clearfix">
+                    <div class="woocommerce">
+                        <div class="woocommerce-notices-wrapper"></div>
+
+                        <div class="u-columns col2-set" id="customer_login">
+                            <div class="row">
+                                <div class="u-column2 col-lg">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <form method="post" class="woocommerce-form woocommerce-form-register register">
+
+                                            <h5 class="mt-0 mb-3 h5-styled">Register</h5>                                      
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide pb-3">
+                                                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide pb-3">
+                                                @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.PasswordFor(model => model.password, htmlAttributes: new { @class = "woocommerce-Input woocommerce-Input--text input-text" })
+                                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide pb-3">
+                                                @Html.LabelFor(model => model.confirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.PasswordFor(model => model.confirmPassword, htmlAttributes: new { @class = "woocommerce-Input woocommerce-Input--text input-text" })
+                                                @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide pb-3">
+                                                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide ">
+                                                @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.DropDownListFor(model => model.gender, new List<SelectListItem> {
+                                                        new SelectListItem { Value = "0" , Text = "Male" },
+                                                        new SelectListItem { Value = "1" , Text = "Female" }
+                                                })
+                                                @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide pb-3">
+                                                @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide pb-3">
+                                                @Html.LabelFor(model => model.birth, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                @Html.EditorFor(model => model.birth, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.birth, "", new { @class = "text-danger" })
+                                            </p>
+
+                                            <input type="hidden" value="true" name="status" />
+                                            <div class="woocommerce-privacy-policy-text">
+                                                <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="https://coffo.peerduck.com/privacy-policy/" class="woocommerce-privacy-policy-link" target="_blank">privacy policy</a>.</p>
+                                            </div>
+                                            <div class="woocommerce-form-row form-row">
+                                                <input type="hidden" id="woocommerce-register-nonce" name="woocommerce-register-nonce" value="29cbcd087e"><input type="hidden" name="_wp_http_referer" value="/my-account/">                <div class="btn-right"><button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register" value="Register">Register</button></div>
+                                            </div>
+
+
+                                        </form>
+
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- .entry-content -->
+
+
+            </div><!-- .post-inner -->
+
+            <div class="section-inner clearfix"></div><!-- .section-inner -->
+
+
+        </article><!-- .post -->
+    </div>
+
+</main>
+
+

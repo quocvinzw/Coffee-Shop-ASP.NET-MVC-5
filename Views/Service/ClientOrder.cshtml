@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "ClientOrder";
+    Layout = "~/Views/Shared/_LayoutService.cshtml";
+}
+
+<div class="container-fluid">
+
+    @if (TempData["AlertSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Success!</strong> Success.
+        </div>
+    }
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">All List Client Order In Shop</h1>
+    <p class="mb-4">
+        List Order <a target="_blank" href="https://datatables.net">official Coffo Admin</a>.
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All List Client Order</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dataTable_length"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 45px;">ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 297.9px;">Client Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 131.288px;">Phone</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 200px;">Order Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 124.05px;">Amount</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="" style="width: 124.05px;">Price</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 150px;">Action</th>
+                                    </thead>
+
+                                    <tbody>
+                                        @if (ViewBag.lsOrder != null)
+                                        {
+                                            List<CoffeShop.Models.OrderView> ls = ViewBag.lsOrder;
+                                            int i = 1;
+                                            foreach (var item in ls)
+                                            {
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>@item.clientName</td>
+                                                    <td>@item.clientPhone</td>
+                                                    <td>@item.productname</td>
+                                                    <td>@item.amount</td>
+                                                    <td>@item.price VND</td>
+                                                    <td>
+                                                        @if (item.status == "0")
+                                                        {
+                                                            <a href="@Url.Action("changeStatusOrder", "Service", new {idOrder=item.id})" class="text-warning">Waiting</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="@Url.Action("changeStatusOrder", "Service", new {idOrder=item.id})" class="text-success">Accomplished</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

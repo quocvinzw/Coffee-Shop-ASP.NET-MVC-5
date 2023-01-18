@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "ManageClient";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+
+    @if (TempData["AlertSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Success!</strong> Success Change Status  Client.
+        </div>
+    }
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Manage Employee</h1>
+    <p class="mb-4">
+        Manage Client <a target="_blank" href="https://datatables.net">official Coffo Admin</a>.
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All List Employee</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dataTable_length"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 45px;">ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 297.9px;">Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 124.05px;">Email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 155px;">Phone</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="" style="width: 124.05px;">BirthDay</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 111.213px;">Action</th>
+                                    </thead>
+
+                                    <tbody>
+                                        @if (ViewBag.lsClient != null)
+                                        {
+                                            List<CoffeShop.Models.ClientView> ls = ViewBag.lsClient;
+                                            int i = 0;
+                                            foreach (var item in ls)
+                                            {
+                                                <tr class="odd">
+                                                    <td class="sorting_1">@(i+1)</td>
+                                                    <td>@item.name</td>
+                                                    <td>@item.email</td>
+                                                    <td>@item.phone</td>
+                                                    <td>@item.birth.ToString("dd/MM/yyyy")</td>
+                                                    @if (item.status == true)
+                                                    {
+                                                        <td><a href="@Url.Action("accountClient","Admin", new {idClient=item.id})" class="text-danger">Disable</a></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><a href="@Url.Action("accountClient","Admin", new {idClient=item.id})" class="text-success">Active</a></td>
+                                                    }
+                                                </tr>
+                                                i++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

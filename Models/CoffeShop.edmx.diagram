@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bbc5455e6901492a938bbeecd317d20e" Name="Diagram1">
+        <EntityTypeShape EntityType="CoffeShopModel.Branch" Width="1.5" PointX="4.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoffeShopModel.Client" Width="1.5" PointX="2.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoffeShopModel.Admin" Width="1.5" PointX="8.25" PointY="0.875" />
+        <EntityTypeShape EntityType="CoffeShopModel.Emp" Width="1.5" PointX="6.5" PointY="0.875" />
+        <AssociationConnector Association="CoffeShopModel.fk_emp_brank" />
+        <AssociationConnector Association="CoffeShopModel.fk_cate_pro1" />
+        <EntityTypeShape EntityType="CoffeShopModel.Category" Width="1.5" PointX="0.625" PointY="4.75" />
+        <EntityTypeShape EntityType="CoffeShopModel.Product" Width="1.5" PointX="2.875" PointY="4.75" />
+        <AssociationConnector Association="CoffeShopModel.fk_pro_cate" />
+        <EntityTypeShape EntityType="CoffeShopModel.VoucherDetail" Width="1.5" PointX="4.875" PointY="4.75" />
+        <AssociationConnector Association="CoffeShopModel.fk_voucherd_product" />
+        <EntityTypeShape EntityType="CoffeShopModel.Voucher" Width="1.5" PointX="7.5" PointY="4.75" />
+        <AssociationConnector Association="CoffeShopModel.fk_voucherd_voucher" />
+        <EntityTypeShape EntityType="CoffeShopModel.Cart" Width="1.5" PointX="10" PointY="4.625" />
+        <AssociationConnector Association="CoffeShopModel.fk_cart_client" />
+        <AssociationConnector Association="CoffeShopModel.fk_cart_product" />
+        <EntityTypeShape EntityType="CoffeShopModel.ClientOrder" Width="1.5" PointX="0.5" PointY="0.875" />
+        <AssociationConnector Association="CoffeShopModel.fk_client_order" />
+        <AssociationConnector Association="CoffeShopModel.fk_product_order" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

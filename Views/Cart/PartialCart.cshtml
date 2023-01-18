@@ -1,0 +1,127 @@
+﻿@{
+    int Total = 0;
+}
+<div class="woocommerce" id="divPart">
+    <div class="woocommerce-notices-wrapper"></div>
+
+    <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="product-remove">ID</th>
+                <th class="product-name">Product</th>
+                <th class="product-thumbnail">Image</th>
+                <th class="product-price">Price</th>
+                <th class="product-quantity">Quantity</th>
+                <th class="product-subtotal">Subtotal</th>
+                <th class="product-price">Remove</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.lsCart != null)
+            {
+                List<CoffeShop.Models.CartView> ls = ViewBag.lsCart;
+                int i = 1;
+                foreach (var item in ls)
+                {
+                    <tr class="woocommerce-cart-form__cart-item cart_item">
+
+                        <td class="product-remove">
+                            @i
+                        </td>
+
+                        <td class="product-name" data-title="Product">
+                            <a href="">@item.productname</a>
+                        </td>
+
+                        <td class="product-thumbnail">
+                            <a href="~/Content/Uploads/@item.imagename"><img width="160" height="225" src="~/Content/Uploads/@item.imagename" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" loading="lazy" srcset="~/Content/Uploads/@item.imagename 160w, ~/Content/Uploads/@item.imagename 213w,~/Content/Uploads/@item.imagename 728w, ~/Content/Uploads/@item.imagename 600w, ~/Content/Uploads/@item.imagename 744w" sizes="(max-width: 160px) 100vw, 160px" /></a>
+                        </td>
+
+                        <td class="product-price" data-title="Price">
+                            <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"></span>@item.productprice VND</bdi></span>
+                        </td>
+
+                        <td class="product-quantity" data-title="Quantity">
+                            <div class="quantity">
+                                <input type="number"
+                                       id="cartAmount"
+                                       class="input-text qty text"
+                                       step="1"
+                                       min="1"
+                                       max="10"
+                                       name="amount"
+                                       value="@item.amount"
+                                       title="Amount"
+                                       size="4"
+                                       placeholder=""
+                                       inputmode="numeric"
+                                       autocomplete="off" data-id="@item.id" />
+
+                            </div>
+                        </td>
+
+                        <td class="product-subtotal" data-title="Subtotal">
+                            <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"></span>@item.subtotal VND</bdi></span>
+                        </td>
+
+                        <td class="product-remove">
+                            <a class="remove container" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#divPart" href="/Cart/removeCart?idCart=@item.id">&times;</a>
+                        </td>
+
+                    </tr>
+                    i++;
+                    Total += item.subtotal;
+                }
+            }
+
+        </tbody>
+    </table>
+
+
+    <div class="cart-collaterals">
+        <div class="cart_totals ">
+
+            <h4 class="mb-4">Cart totals</h4>
+
+            <table cellspacing="0" class="shop_table shop_table_responsive">
+                <tr class="order-total">
+                    <th>Total</th>
+                    <td data-title="Total"><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"></span>@Total VND</bdi></span></strong> </td>
+                </tr>
+
+
+            </table>
+
+            @*<div class="wc-proceed-to-checkout">
+
+                    <a href="https://coffo.peerduck.com/checkout/" class="checkout-button button alt wc-forward">
+                        CheckOut
+                    </a>
+                </div>*@
+
+
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input[id="cartAmount"]').on('change', function () {
+            var amount = $(this).val();
+            var id = $(this).attr('data-id');
+            $.ajax({
+                url: "@Url.Action("updateCart", "Cart")",
+                data: {
+                    id: id,
+                    amount: amount
+                }
+            }).done(function (data) {
+                $("#divPart").html(data);
+            });
+        });
+    });
+</script>

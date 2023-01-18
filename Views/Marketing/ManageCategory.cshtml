@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "ManageCategory";
+    Layout = "~/Views/Shared/_LayoutMarketing.cshtml";
+}
+
+@if (TempData["Alert"] != null)
+{
+    if (TempData["Alert"].ToString() == "Success")
+    {
+        <div class="alert alert-success alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Success!</strong> Success Change Status Category.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Error!</strong> There are some error please check back.
+        </div>
+    }
+}
+
+@if (TempData["Edit"] != null)
+{
+    <div class="alert alert-success alert-dismissible" id="rmAlert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+        <strong>Success!</strong> Success Edit Category.
+    </div>
+}
+<h1 class="h3 mb-2 text-gray-800">Manage Category</h1>
+<p class="mb-4">
+    Manage Category <a target="_blank" href="https://datatables.net">official Coffo Marketing</a>.
+</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-8">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">All List Category</h6>
+    </div>
+    <div class="card-body">
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 col-md-8">
+                    <div class="dataTables_length" id="dataTable_length"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 100px;">ID</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 350px;">Category Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width:150px;">Action</th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 150px;">Status</th>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.lsCategory != null)
+                                {
+                                    List<CoffeShop.Models.Database.CategoryView> ls = ViewBag.lsCategory;
+                                    int i = 0;
+                                    foreach (var item in ls)
+                                    {
+                                        <tr class="odd">
+                                            <td>@(i+1)</td>
+                                            <td>@item.name</td>
+                                            <td>
+                                                <a href="@Url.Action("EditCategory","Marketing", new {idcate=item.id})" class="text-primary">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                            <td>
+                                                @if (item.status == true)
+                                                {
+                                                    <a href="@Url.Action("changeStatusCate","Marketing", new {idcate=item.id})" class="text-danger ">
+                                                        Disable
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("changeStatusCate","Marketing",new {idcate=item.id})" class="text-success">
+                                                        Active
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,96 @@
+﻿@model CoffeShop.Models.VoucherDetailView
+@{
+    ViewBag.Title = "AddVoucher";
+    Layout = "~/Views/Shared/_LayoutMarketing.cshtml";
+}
+
+@if (TempData["Alert"] != null)
+{
+    if (TempData["Alert"].ToString() == "Success")
+    {
+        <div class="alert alert-success alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Success!</strong> Success Create VoucherDetails
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger alert-dismissible" id="rmAlert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="remove()">&times;</a>
+            <strong>Error!</strong> There are some error please check back.
+        </div>
+    }
+}
+
+<div class="col-lg-12 container">
+    <div class="p-5">
+        <div class="text-center">
+            <h1 class="h4 text-success mb-4 ">Add Voucher Details</h1>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <form class="user" method="post" enctype="multipart/form-data">
+                <div class="form-group mt-2">
+                    <div class="col-sm-12 mb-0">
+                        <p class="mb-0 mt-0 ms-5">Select Product</p>
+                        <select class="form-control form-control-user" name="idproduct">
+                            <option value="-1">Product</option>
+                            @if (ViewBag.lsProduct != null)
+                            {
+                                List<CoffeShop.Models.ProductView> ls = ViewBag.lsProduct;
+                                foreach (var p in ls)
+                                {
+                                    <option value="@p.id">@p.name</option>
+                                }
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.idproduct, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <div class="col-sm-12 mb-0">
+                        <p class="mb-0 mt-0 ms-5">Voucher</p>
+                        <select class="form-control form-control-user" name="idvoucher">
+                            <option value="-1">Voucher</option>
+                            @if (ViewBag.lsVoucher != null)
+                            {
+                                List<CoffeShop.Models.VoucherView> ls = ViewBag.lsVoucher;
+                                foreach (var v in ls)
+                                {
+                                    <option value="@v.id">@v.name</option>
+                                }
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.idvoucher, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group mt-2">
+                    <div class="col-sm-12 mb-0">
+                        <div class="custom-control custom-checkbox ">
+                            <input type="checkbox" class="custom-control-input" id="customCheck" name="status" value="">
+                            <label class="custom-control-label" for="customCheck">
+                                Status
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                    Create Voucher Details
+                </button>
+            </form>
+        }
+
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#customCheck").change(function () {
+            $("#customCheck").is(":checked") ? $("#customCheck").val("True") : $("#customCheck").val("False");
+        })
+    </script>
+}
